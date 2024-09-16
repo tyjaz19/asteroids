@@ -25,6 +25,8 @@ def main():
     field = AsteroidField()
 
     dt = 0
+    score = 0
+    lives = 3
 
     # game loop
     while True:
@@ -32,28 +34,37 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
+        # updates all objects
         for obj in updatable:
             obj.update(dt)
 
+        # check for collision
         for asteroid in asteroids:
             if asteroid.collision_with(player):
-                print("Game over!")
-                sys.exit()
+                if lives == 0:
+                    print(f"Game over! With a Score of {score}")
+                    sys.exit()
+                lives -= 1
+                player.kill()
+                player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+                for asteroid in asteroids:
+                    asteroid.kill()
+
             for shot in player_shots:
                 if asteroid.collision_with(shot):
+                    score += asteroid.add_score(score)
                     asteroid.split()
                     shot.kill()
 
         screen.fill("black")
 
+        # spawns objects
         for obj in drawable:
             obj.draw(screen)
 
         pygame.display.flip()
         
-
         dt = clock.tick(60) / 1000
-
 
 if __name__ == "__main__":
     main()

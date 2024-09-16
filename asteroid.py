@@ -28,3 +28,14 @@ class Asteroid(CircleShape):
         asteroid2 = Asteroid(self.position.x, self.position.y, self.radius)
         asteroid1.velocity = Vector1 * 1.2
         asteroid2.velocity = Vector2
+
+    def add_score(self, Score):
+        if self.radius <= ASTEROID_MIN_RADIUS:
+            Score += 1
+            return Score
+        elif self.radius == ASTEROID_MAX_RADIUS:
+            Score += 3
+            return Score
+        else:
+            Score += 2
+            return Score
