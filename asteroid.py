@@ -6,6 +6,7 @@ import random
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
+        self.bounce_timer = 10.0
 
     # draw asteroid
     def draw(self, screen):
@@ -14,6 +15,8 @@ class Asteroid(CircleShape):
     # everytime update function called move asteroid
     def update(self, dt):
         self.position += self.velocity * dt
+        self.bounce_timer -= dt
+        self.bounce()
 
     # split the asteroid
     def split(self):
@@ -39,3 +42,20 @@ class Asteroid(CircleShape):
         else:
             Score += 2
             return Score
+
+    # check if hit screen edge    
+    def out_of_area(self):
+        border_x1 = 0
+        border_x2 = SCREEN_WIDTH
+        border_y1 = 0
+        border_y2 = SCREEN_HEIGHT
+        if (self.position.x <= border_x1 or self.position.x >= border_x2) or (
+            self.position.y <= border_y1 or self.position.y >= border_y2):
+            return True
+        else:
+            return False
+    
+    def bounce(self):
+        if self.out_of_area() == True and self.bounce_timer <= 0:
+            self.velocity *= -1
+            self.bounce_timer = 10.0
