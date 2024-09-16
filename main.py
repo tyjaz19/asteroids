@@ -41,7 +41,7 @@ def main():
         # check for collision
         for asteroid in asteroids:
             if asteroid.collision_with(player):
-                if lives == 0:
+                if lives == 1:
                     print(f"Game over! With a Score of {score}")
                     sys.exit()
                 lives -= 1
@@ -54,6 +54,8 @@ def main():
                 if asteroid.collision_with(shot):
                     score = asteroid.add_score(score)
                     asteroid.split()
+                    shot.kill()
+                if shot.out_of_area == True:
                     shot.kill()
 
         screen.fill("black")
