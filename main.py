@@ -52,7 +52,7 @@ def main():
 
             for shot in player_shots:
                 if asteroid.collision_with(shot):
-                    score += asteroid.add_score(score)
+                    score = asteroid.add_score(score)
                     asteroid.split()
                     shot.kill()
 
