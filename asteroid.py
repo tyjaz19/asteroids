@@ -55,6 +55,7 @@ class Asteroid(CircleShape):
         else:
             return False
     
+    # bounce off the screen
     def bounce(self):
         if self.out_of_area() == True and self.bounce_timer <= 0:
             self.velocity *= -1
